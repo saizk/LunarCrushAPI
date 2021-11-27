@@ -127,7 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
 .idea
+venv
+dist
+*.egg-info
 
 *.pypirc
 test.py
