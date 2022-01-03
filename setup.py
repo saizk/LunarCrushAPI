@@ -5,10 +5,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="lunarcrush",
-    version="1.0.0",
+    version="1.0.1",
     author="saizk",
     author_email="sergioaizcorbe@hotmail.com",
-    description="LunarCrush API v2 Wrapper for Python.",
+    description="Unofficial LunarCrush API v2 Wrapper for Python.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/saizk/LunarCrush-API",
