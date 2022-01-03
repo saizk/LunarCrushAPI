@@ -1,5 +1,6 @@
 # LunarCrush-API
 ![PyPI version](https://img.shields.io/pypi/v/lunarcrush)
+
 Unofficial LunarCrush API v2 Wrapper for Python. No API key needed!
 
 ## Installation
