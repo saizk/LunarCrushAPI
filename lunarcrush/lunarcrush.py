@@ -1,31 +1,36 @@
-import json
+import time
+import datetime
+import requests
 import urllib.parse
-import urllib.request
 
 
 class LunarCrush(object):
-    _BASE_URL = 'https://api.lunarcrush.com/v2'
+    _BASE_URL = 'https://api2.lunarcrush.com/v2'
 
-    def __init__(self, api_key):
+    def __init__(self, api_key=None):
         self._api_key = api_key
 
-    def _gen_url(self, endpoint, **kwargs):
-        url = f'{self._BASE_URL}?data={endpoint}&key={self._api_key}'
-        url += '&' + urllib.parse.urlencode(kwargs) if kwargs else ''
-        return url
-
-    def _get_data(self, endpoint, **kwargs):
-        kwargs = self._parse_parameters(**kwargs)
-        url = self._gen_url(endpoint, **kwargs)
-        response = json.loads(urllib.request.urlopen(url).read())
-        return response
-
     @staticmethod
-    def _parse_parameters(**kwargs):
+    def _parse_kwargs(kwargs):
+        if kwargs.get('data_points'):
+            assert kwargs['data_points'] <= 720
         for param, value in kwargs.items():
             if isinstance(value, list):
                 kwargs[param] = ','.join(value)
+            if isinstance(value, datetime.datetime):
+                kwargs[param] = int(time.mktime(value.timetuple()))
         return kwargs
+
+    def _gen_url(self, endpoint, **kwargs):
+        url = f'{self._BASE_URL}?data={endpoint}'
+        url += f'&key={self._api_key}' if self._api_key else ''
+        url += '&' + urllib.parse.urlencode(kwargs) if kwargs else ''
+        return url
+
+    def _request(self, endpoint, **kwargs):
+        kwargs = self._parse_kwargs(kwargs)
+        url = self._gen_url(endpoint, **kwargs)
+        return requests.get(url).json()
 
     def get_assets(self, symbol: list, **kwargs) -> dict:
         """
@@ -40,13 +45,12 @@ class LunarCrush(object):
              the time period before and the percent change.
         :key int data_points: Number of time series data points to include for the asset. Maximum of 720 data points
              accepted, to not use time series data set data_points=0
-        :key int start: A unix timestamp (seconds) of the earliest time series point to provide. Use in combination with
+        :key int start (prohibited): A unix timestamp (seconds) of the earliest time series point to provide. Use in combination with
              data_points to start at a certain hour or day and provide X hours/days of data.
-        :key int end: A unix timestamp (seconds) of the latest time series point to provide. Use in combination with
+        :key int end (prohibited): A unix timestamp (seconds) of the latest time series point to provide. Use in combination with
              data_points to provide the most recent X data points leading up to a certain time.
         """
-
-        return self._get_data('assets', symbol=symbol, **kwargs)
+        return self._request('assets', symbol=symbol, **kwargs)
 
     def get_market(self, **kwargs) -> dict:
         """
@@ -59,7 +63,7 @@ class LunarCrush(object):
         :key str sort: Sort output by: s,n,sc,p,p_btc,v,vt,pc,pch,mc,gs,ss,as,sp,na,md,t,r,yt,sv,u,c,sd,d,acr,cr
         :key bool desc: Reverse the sort. Default is to sort lowest to highest, add &desc=true to sort highest to lowest
         """
-        return self._get_data('market', **kwargs)
+        return self._request('market', **kwargs)
 
     def get_market_pairs(self, symbol: list, **kwargs) -> dict:
         """
@@ -70,7 +74,7 @@ class LunarCrush(object):
         :key int page: Specify a page number in combination with the limit parameter. First page starts at 0
              so page two will be &page=1
         """
-        return self._get_data('market-pairs', symbol=symbol, **kwargs)
+        return self._request('market-pairs', symbol=symbol, **kwargs)
 
     def get_global(self, **kwargs) -> dict:
         """
@@ -82,7 +86,7 @@ class LunarCrush(object):
              time period before and the percent change
         :key int data_points: Number of time series data points to include for the asset.
         """
-        return self._get_data('global', **kwargs)
+        return self._request('global', **kwargs)
 
     def get_meta(self, **kwargs) -> dict:
         """
@@ -90,7 +94,7 @@ class LunarCrush(object):
 
         :key str type: The type of meta data to get. Try "counts", "price", or "full"
         """
-        return self._get_data('meta', **kwargs)
+        return self._request('meta', **kwargs)
 
     def get_exchange(self, exchange) -> dict:
         """
@@ -98,7 +102,7 @@ class LunarCrush(object):
 
         :key str exchange: Lunar id of the exchange to fetch information for
         """
-        return self._get_data('exchange', exchange=exchange)
+        return self._request('exchange', exchange=exchange)
 
     def get_exchanges(self, **kwargs) -> dict:
         """
@@ -107,20 +111,20 @@ class LunarCrush(object):
         :key int limit: Limit the number of results
         :key str order_by: Sort the results by column
         """
-        return self._get_data('exchanges', **kwargs)
+        return self._request('exchanges', **kwargs)
 
     def get_coin_of_the_day(self) -> dict:
         """
         The current coin of the day
         """
-        return self._get_data('coinoftheday')
+        return self._request('coinoftheday')
 
     def get_coin_of_the_day_info(self) -> dict:
         """
         Provides the history of the coin of the day on LunarCRUSH when it was last changed, and when each coin was
         last coin of the day
         """
-        return self._get_data('coinoftheday_info')
+        return self._request('coinoftheday_info')
 
     def get_feeds(self, symbol: list, **kwargs) -> dict:
         """
@@ -137,7 +141,7 @@ class LunarCrush(object):
         :key int end: A unix timestamp (seconds) of the latest time series point to provide. Use in combination with
              data_points to provide the most recent X data points leading up to a certain time.
         """
-        return self._get_data('feeds', symbol=symbol, **kwargs)
+        return self._request('feeds', symbol=symbol, **kwargs)
 
     def get_influencer(self, **kwargs) -> dict:
         """
@@ -150,7 +154,7 @@ class LunarCrush(object):
         :key int page: Specify a page number in combination with the limit parameter.
              First page starts at 0 so page two will be &page=1
         """
-        return self._get_data('influencer', **kwargs)
+        return self._request('influencer', **kwargs)
 
     def get_influencers(self, symbol: list, **kwargs) -> dict:
         """
@@ -161,8 +165,8 @@ class LunarCrush(object):
         :key int days: Number of days to aggregate stats for
         :key int num_days: Number of days to aggregate from the calculated date using the days parameter.
              Use the value 1 to get the influencers on a single day.
-        :key int limit: Limit number of influencers to return
+        :key int limit (prohibited): Limit number of influencers to return
         :key str order_by: Order by engagement, followers, volume, or influential (influential is a score based on
             engagement, num followers and volume)
         """
-        return self._get_data('influencers', symbol=symbol, **kwargs)
+        return self._request('influencers', symbol=symbol, **kwargs)

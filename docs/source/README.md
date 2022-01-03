@@ -6,7 +6,7 @@ LunarCrush-API is supported on Python 3.6+. You can install this package via pip
 ```
 pip install lunarcrush
 ```
-# Quickstart
+## Quickstart
 **1.** Sign up in <https://legacy.lunarcrush.com> and go to *Settings* & *API* to get the **API key**.
 
 **2.** Create an instance of LunarCrush
@@ -14,7 +14,7 @@ pip install lunarcrush
 ```Python
 from lunarcrush import LunarCrush
 
-lc = LunarCrush('<YOUR API KEY>')
+lc = LunarCrush()
 ```
 
 **3.** Start requesting information!
