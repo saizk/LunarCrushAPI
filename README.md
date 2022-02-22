@@ -47,7 +47,11 @@ You can find more details about the request parameters in <https://legacy.lunarc
 | **get_influencer**(*id*, *screen_name*, *days*, *page*, *limit?*)                                   | Individual influencer details including actual posts.                                                                                   |
 | **get_influencers**(*symbol*, *days*, *num_days*, *order_by*, *~~limit~~*)                          | List of social accounts that have the most influence on different assets based on number of followers, engagements and volume of posts. |
 
-## LunarCrush Metrics description
+## Response fields
+A short description of the response fields can be found in the [example](examples/doge.jsmin) response.
+
+
+## Metrics description
 | Metric           | Description                                                                                                                                                                                                                                                                                                                                         |
 |------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **GALAXY SCORE** | The Galaxy Score™ indicates how healthy a coin is by looking at combined performance indicators across markets and social engagement. Display the real-time Galaxy Score™ of any coin.                                                                                                                                                              |
