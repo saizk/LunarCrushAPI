@@ -45,10 +45,10 @@ class LunarCrush(object):
              the time period before and the percent change.
         :key int data_points: Number of time series data points to include for the asset. Maximum of 720 data points
              accepted, to not use time series data set data_points=0
-        :key int start (prohibited): A unix timestamp (seconds) of the earliest time series point to provide. Use in combination with
-             data_points to start at a certain hour or day and provide X hours/days of data.
-        :key int end (prohibited): A unix timestamp (seconds) of the latest time series point to provide. Use in combination with
-             data_points to provide the most recent X data points leading up to a certain time.
+        :key datetime.datetime start (forbidden): A datetime object of the earliest time series point to provide.
+             Use in combination with data_points to start at a certain hour or day and provide X hours/days of data.
+        :key datetime.datetime end (forbidden): A datetime object of the latest time series point to provide.
+             Use in combination with data_points to provide the most recent X data points leading up to a certain time.
         """
         return self._request('assets', symbol=symbol, **kwargs)
 
@@ -136,10 +136,10 @@ class LunarCrush(object):
         :key int limit: Number of posts per data source.
         :key int page: Use this for pagination of data.
         :key str type: order/sort/query by 'influential' or 'chronological' posts
-        :key int start: A unix timestamp (seconds) of the earliest time series point to provide.
+        :key datetime.datetime start (forbidden): A datetime object of the earliest time series point to provide.
              Use in combination with data_points to start at a certain hour or day and provide X hours/days of data.
-        :key int end: A unix timestamp (seconds) of the latest time series point to provide. Use in combination with
-             data_points to provide the most recent X data points leading up to a certain time.
+        :key datetime.datetime end (forbidden): A datetime object of the latest time series point to provide.
+             Use in combination with data_points to provide the most recent X data points leading up to a certain time.
         """
         return self._request('feeds', symbol=symbol, **kwargs)
 
@@ -163,9 +163,9 @@ class LunarCrush(object):
 
         :param list symbol: List of coins to fetch data for
         :key int days: Number of days to aggregate stats for
-        :key int num_days: Number of days to aggregate from the calculated date using the days parameter.
+        :key int num_days: Number of days to aggregate from the calculated date using the 'days' parameter.
              Use the value 1 to get the influencers on a single day.
-        :key int limit (prohibited): Limit number of influencers to return
+        :key int limit (forbidden): Limit number of influencers to return
         :key str order_by: Order by engagement, followers, volume, or influential (influential is a score based on
             engagement, num followers and volume)
         """
