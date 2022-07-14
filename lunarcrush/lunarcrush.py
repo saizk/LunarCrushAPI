@@ -12,8 +12,6 @@ class LunarCrush(object):
 
     @staticmethod
     def _parse_kwargs(kwargs):
-        if kwargs.get('data_points'):
-            assert kwargs['data_points'] <= 720
         for param, value in kwargs.items():
             if isinstance(value, list):
                 kwargs[param] = ','.join(value)
