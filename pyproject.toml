@@ -3,7 +3,7 @@ requires = ["setuptools>=59.3.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "LunarCrushAPI"
+name = "lunarcrush"
 version = "1.0.2"
 authors = [
   { name="saizk", email="sergioaizcorbe@hotmail.com" },
