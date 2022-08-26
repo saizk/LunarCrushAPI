@@ -1,14 +1,14 @@
 # LunarCrushAPI
 ![PyPI version](https://img.shields.io/pypi/v/lunarcrush)
 
-Unofficial LunarCrush API v2 Wrapper for Python. No API key needed!
+Unofficial LunarCrush API **v2** and **v3** Wrapper for Python. No API key needed for LCv2!
 
-## Installation
-LunarCrush-API is supported on **Python 3.6+**. You can install this package via pip:
+## 💽 Installation
+LunarCrushAPI is supported on **Python 3.6+**. You can install this package via pip:
 ```
 pip install lunarcrush
 ```
-## Quickstart
+## 🔍 Quickstart for LunarCrush API v2
 **1.** Create an instance of LunarCrush
 
 ```Python
@@ -24,13 +24,27 @@ eth_1_year_data = lc.get_assets(symbol=['ETH'],
                                 data_points=365, interval='day')
 ```
 
-## Warning!
-Due to the constant changes in LunarCrush internal API, some parameters might **NOT** work properly, making the server to response with a *5XX error*.
+## 🔍 Quickstart for LunarCrush API v3
+**1.** Create an instance of LunarCrushV3
+
+```Python
+from lunarcrush import LunarCrushV3
+
+lcv3 = LunarCrushV3('<YOUR API KEY>')
+```
+
+**2.** Start requesting information!
+
+```Python
+eth_insights = lcv3.get_coin_insights(coin='ETH', metrics='social_volume')
+```
+
+## ⚠️ Warning!
+Some parameters might **NOT** work properly for LunarCrush API v2, making the server to response with a *5XX error*.
 
 
-## API Endpoints
+## 📜 API v2 Endpoints
 Here is a short description for the LunarCrush API v2 Endpoints.
-You can find more details about the request parameters in <https://legacy.lunarcrush.com/developers/docs> 
 
 | Method                                                                | Description                                                                                                                             | Not authorized parameters |
 |-----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|---------------------------|
@@ -47,11 +61,14 @@ You can find more details about the request parameters in <https://legacy.lunarc
 | ```get_influencer(id, screen_name, days, page)```                     | Individual influencer details including actual posts.                                                                                   | (*~~limit~~*)             |
 | ```get_influencers(symbol, days, num_days, order_by)```               | List of social accounts that have the most influence on different assets based on number of followers, engagements and volume of posts. | (*~~limit~~*)             |
 
-## Response fields
+## 📰 API v3 Endpoints
+You can find a detailed description of all the endpoints and parameters for LunarCrush API v3 in <https://lunarcrush.com/developers/api/endpoints>.
+
+## 📋 Response fields
 A short description of the response fields can be found in the [example](examples/doge.jsmin) response.
 
 
-## Metrics description
+## 📈 Metrics description
 | Metric           | Description                                                                                                                                                                                                                                                                                                                                         |
 |------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **GALAXY SCORE** | The Galaxy Score™ indicates how healthy a coin is by looking at combined performance indicators across markets and social engagement. Display the real-time Galaxy Score™ of any coin.                                                                                                                                                              |

@@ -1,6 +1,6 @@
 from setuptools import setup
 
-_version = '1.0.3'
+_version = '2.0.0'
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()

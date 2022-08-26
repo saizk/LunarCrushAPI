@@ -2,13 +2,14 @@ import time
 import datetime
 import requests
 import urllib.parse
+from lunarcrush.base import LunarCrushABC
 
 
-class LunarCrush(object):
+class LunarCrush(LunarCrushABC):
     _BASE_URL = 'https://api2.lunarcrush.com/v2'
 
     def __init__(self, api_key=None):
-        self._api_key = api_key
+        super().__init__(api_key)
 
     @staticmethod
     def _parse_kwargs(kwargs):
