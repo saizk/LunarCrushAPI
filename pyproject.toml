@@ -8,6 +8,9 @@ version = "2.0.1"
 authors = [
   { name="saizk", email="sergioaizcorbe@hotmail.com" },
 ]
+dependencies = [
+    "requests"
+]
 description = "Unofficial LunarCrush API v2 Wrapper for Python."
 readme = "README.md"
 license = { file="LICENSE" }
