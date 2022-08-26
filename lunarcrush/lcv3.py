@@ -60,7 +60,7 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request('/coinoftheday/info')
 
-    def get_all_coins(self, sort: str = 'alt_rank', limit: int = None, desc: bool = False) -> dict:
+    def get_coins(self, sort: str = 'alt_rank', limit: int = None, desc: bool = False) -> dict:
         """
         Get a general snapshot of LunarCrush metrics on the entire list of tracked coins. It is designed as a
         lightweight mechanism for monitoring the universe of available assets, either in aggregate or relative to each
@@ -116,10 +116,11 @@ class LunarCrushV3(LunarCrushABC):
     def get_coin_influencers(self, coin: str | int, interval: str = '1w', order: str = 'influential',
                              limit: int = 100, page: int = None) -> dict:
         """
-        Get a full hourly time series data dump for all metrics provided by /coins/:coin/time-series endpoint. It is
-        designed to be a cheaper alternative for grabbing full historical data (as opposed to a specified interval) for
-        back-testing and modeling. This is usually a > 30mb download and only includes data up to the most recently
-        completed day.
+        Get a list a crypto influencers for a specified coin or token. It is sorted on influencer_rank (influential)
+        by default but can be sorted by engagement, follower, or social media volume by specifying the sort criteria
+        in the input parameters. Returns an influencers social media volume, volume rank, followers, followers rank,
+        engagement, engagement rank, influencer rank, and weighted average rank. Also includes metadata like twitter
+        handle, display name, profile and banner image.
 
         :param str | int coin: Provide the numeric id or symbol of the coin or token.
         :param str interval: The time interval to use. Options: '1d', '1w', '1m', '3m', '6m', '1y', '2y', 'all'.
@@ -296,6 +297,10 @@ class LunarCrushV3(LunarCrushABC):
     def get_feeds(self, limit: int = 10, since: str = '1m', hours: int = None, days: int = None, sources: str = None,
                   coin_id: int = None, symbol: str = None, lunar_id: int = None, market: str = 'coins') -> dict:
         """
+        Get a list of relevant, highly-engaged social media posts  with the ability to filter by a specific coin or
+        NFT asset, as well as a general category (coin or NFT). Additional filters include selected time intervals
+        and sources (Twitter, news, Medium, YouTube, Reddit). This was designed for applications who plan to curate
+        their own news or social media feeds for themselves or for their users.
 
         :param int limit: Limit the number of results (max = 1000).
         :param str since: Top feeds from the selected time interval looking back. Options: '1d', '1w', '1m', '3m', '6m',
