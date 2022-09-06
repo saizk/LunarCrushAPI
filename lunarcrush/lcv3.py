@@ -33,11 +33,8 @@ class LunarCrushV3(LunarCrushABC):
         return url
 
     def _request(self, endpoint, **kwargs):
-        print(endpoint, kwargs)
         kwargs = self._parse_kwargs(kwargs)
         url = self._gen_url(endpoint, **kwargs)
-        print(url)
-        exit()
         headers = {'Authorization': f'Bearer {self._api_key}'}
         return requests.get(url, headers=headers).json()
 
