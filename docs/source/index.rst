@@ -8,7 +8,8 @@ Welcome to LunarCrush-API's documentation!
 
 .. toctree::
    README.md
-   endpoints.md
+   v2_endpoints.md
+   v3_endpoints.md
    metrics.md
 
 
