@@ -263,7 +263,7 @@ class LunarCrushV3(LunarCrushABC):
         :param float market_cap: Minimum market cap on the coin to filter by.
         :param int alt_rank: Maximum alt rank on the coin to filter by.
         """
-        return self._request(f'/coins/insights',
+        return self._request('/coins/insights',
                              metrics=metrics, limit=limit, volume=volume, market_cap=market_cap, alt_rank=alt_rank)
 
     def get_coins_list(self) -> dict:
@@ -345,7 +345,7 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request(f'/insights/{insight}', type=type)
 
-    def get_coin_market_pairs(self, coin: str | int, limit: int = 100, page: int = 100, sort: str = None) -> dict:
+    def get_market_pairs(self, coin: str | int, limit: int = 100, page: int = 100, sort: str = None) -> dict:
         """
         Get a full list of market pairs across all available exchanges, and the data pertaining to the specific market
         exchange pair for any coin id or symbol. Data on each pair includes the exchange id, 1-day trading metrics,
@@ -390,6 +390,7 @@ class LunarCrushV3(LunarCrushABC):
         :param limit: Limit the number of results.
         :param desc: Pass any value as desc and the output will be reversed (descending).
         """
+        return self._request('/nfts', sort=sort, limit=limit, desc=desc)
 
     def get_nft(self, nft: str | int) -> dict:
         """
@@ -627,7 +628,7 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request(f'/sparks/{spark_id}')
 
-    def get_lunrfi_stats(self) -> dict:
+    def get_stats_lunrfi(self) -> dict:
         """
         Get global LunrFi stats.
         """

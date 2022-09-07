@@ -133,5 +133,5 @@ venv
 dist
 *.egg-info
 
+tests
 *.pypirc
-test.py
