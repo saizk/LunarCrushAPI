@@ -74,7 +74,7 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request('/coins', sort=sort, limit=limit, desc=desc)
 
-    def get_coin(self, coin: str | int) -> dict:
+    def get_coin(self, coin: str or int) -> dict:
         """
         Get a robust and detailed snapshot of a specific coin's metrics. This endpoint was designed to provide a
         granular look at the coin at the timestamp that the call is made. Depending on the call frequency, can be used
@@ -87,30 +87,30 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request(f'/coins/{coin}')
 
-    def get_coin_change(self, coin: str | int, interval: str = '1w') -> dict:
+    def get_coin_change(self, coin: str or int, interval: str = '1w') -> dict:
         """
         Get percentage change metrics for provided coin id or symbol. The endpoint returns all the same metrics as the
         /coins/:coin endpoint, but relative to a specified interval prior to the time of call. For example, calling the
         endpoint with a 1 week interval will provide the difference in either the sum or the average of the metric from
         the previous time period until the current time period, e.g. most recent 1 week vs. the 1 week prior to that.
 
-        :param str | int coin: Provide the numeric id or symbol of the coin or token.
+        :param str or int coin: Provide the numeric id or symbol of the coin or token.
         :param str interval: The % change since time interval to use. Options: '1d', '1w', '1m', '3m', '6m', '1y', '2y'.
         """
         return self._request(f'/coins/{coin}/change', interval=interval)
 
-    def get_coin_historical(self, coin: str | int) -> dict:
+    def get_coin_historical(self, coin: str or int) -> dict:
         """
         Get a full hourly time series data dump for all metrics provided by /coins/:coin/time-series endpoint. It is
         designed to be a cheaper alternative for grabbing full historical data (as opposed to a specified interval) for
         back-testing and modeling. This is usually a > 30mb download and only includes data up to the most recently
         completed day.
 
-        :param str | int coin: Provide the numeric id or symbol of the coin or token.
+        :param str or int coin: Provide the numeric id or symbol of the coin or token.
         """
         return self._request(f'/coins/{coin}/historical')
 
-    def get_coin_influencers(self, coin: str | int, interval: str = '1w', order: str = 'influential',
+    def get_coin_influencers(self, coin: str or int, interval: str = '1w', order: str = 'influential',
                              limit: int = 100, page: int = None) -> dict:
         """
         Get a list a crypto influencers for a specified coin or token. It is sorted on influencer_rank (influential)
@@ -119,7 +119,7 @@ class LunarCrushV3(LunarCrushABC):
         engagement, engagement rank, influencer rank, and weighted average rank. Also includes metadata like twitter
         handle, display name, profile and banner image.
 
-        :param str | int coin: Provide the numeric id or symbol of the coin or token.
+        :param str or int coin: Provide the numeric id or symbol of the coin or token.
         :param str interval: The time interval to use. Options: '1d', '1w', '1m', '3m', '6m', '1y', '2y', 'all'.
         :param str order: Order results. Options: 'influential', 'engagement', 'followers', 'volume'.
         :param int limit: Limit the number of results.
@@ -127,7 +127,7 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request(f'/coins/{coin}/influencers', interval=interval, order=order, limit=limit, page=page)
 
-    def get_coin_insights(self, coin: str | int, metrics: str = None, limit: int = 10) -> dict:
+    def get_coin_insights(self, coin: str or int, metrics: str = None, limit: int = 10) -> dict:
         """
         Get a list of LunarCrush insights for a specific coin or token. Insights are generated for any anomalies in the
         data or for any significant deviations from the moving average on a specific metric e.g. bullish sentiment
@@ -137,7 +137,7 @@ class LunarCrushV3(LunarCrushABC):
         social_dominance, social_contributors, market_cap, volume, market_dominance) by specifying in the "metrics"
         query parameter.
 
-        :param str | int coin: Provide the numeric id or symbol of the coin or token.
+        :param str or int coin: Provide the numeric id or symbol of the coin or token.
         :param str metrics: Filter insights to specific metrics. Options: 'galaxy_score', 'alt_rank', 'close',
                             'social_volume', 'social_score', 'social_dominance', 'social_contributors', 'market_cap',
                             'volume', 'market_dominance'.
@@ -145,16 +145,16 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request(f'/coins/{coin}/insights', metrics=metrics, limit=limit)
 
-    def get_coin_meta(self, coin: str | int) -> dict:
+    def get_coin_meta(self, coin: str or int) -> dict:
         """
         Get all of a coin's basic descriptive data. This includes a coin's description, official social media links,
         white paper, etc.
 
-        :param str | int coin: Provide the numeric id or symbol of the coin or token.
+        :param str or int coin: Provide the numeric id or symbol of the coin or token.
         """
         return self._request(f'/coins/{coin}/meta')
 
-    def get_coin_time_series(self, coin: str | int, interval: str = '1w', start: datetime.datetime = None,
+    def get_coin_time_series(self, coin: str or int, interval: str = '1w', start: datetime.datetime = None,
                              bucket: str = 'hour', data_points: int = None) -> dict:
         """
         Get the same metrics available on the /coins/:coin endpoint in a series of discrete, memorialized time buckets
@@ -163,7 +163,7 @@ class LunarCrushV3(LunarCrushABC):
         at pre-specified hourly or daily timestamps, capped at 1000 data points. This endpoint was designed to provide
         historical data for research or backtesting purposes.
 
-        :param str | int coin: Provide the numeric id or symbol of the coin or token.
+        :param str or int coin: Provide the numeric id or symbol of the coin or token.
         :param str interval: The time interval to use. Options: '1d', '1w', '1m', '3m', '6m', '1y', '2y', 'a'.
         :param datetime.datetime start: The start time (datetime.datetime) to go back to.
         :param str bucket: Use hour or day time buckets / aggregates. Options: 'hour', 'day'.
@@ -345,7 +345,7 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request(f'/insights/{insight}', type=type)
 
-    def get_market_pairs(self, coin: str | int, limit: int = 100, page: int = 100, sort: str = None) -> dict:
+    def get_market_pairs(self, coin: str or int, limit: int = 100, page: int = 100, sort: str = None) -> dict:
         """
         Get a full list of market pairs across all available exchanges, and the data pertaining to the specific market
         exchange pair for any coin id or symbol. Data on each pair includes the exchange id, 1-day trading metrics,
@@ -392,7 +392,7 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request('/nfts', sort=sort, limit=limit, desc=desc)
 
-    def get_nft(self, nft: str | int) -> dict:
+    def get_nft(self, nft: str or int) -> dict:
         """
         Get a robust and detailed snapshot of a specific NFT collection's metrics. This endpoint was designed to provide
         a granular look at the collection at the timestamp that the call is made. Depending on the call frequency, can
@@ -405,7 +405,7 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request(f'/nft/{nft}')
 
-    def get_nft_change(self, nft: str | int, interval: str = '1w') -> dict:
+    def get_nft_change(self, nft: str or int, interval: str = '1w') -> dict:
         """
         Get percentage change metrics for provided nft id or lunar id. The endpoint returns all the same metrics as the
         /nfts/:nft endpoint, but relative to a specified interval prior to the time of call. For example, calling the
@@ -417,18 +417,18 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request(f'/nfts/{nft}/change', interval=interval)
 
-    def get_nft_historical(self, nft: str | int) -> dict:
+    def get_nft_historical(self, nft: str or int) -> dict:
         """
         Get a full hourly time series data dump for all metrics provided by /nfts/:nft/time-series endpoint. It is
         designed to be a cheaper alternative for grabbing full historical data (as opposed to a specified interval) for
         back-testing and modeling. This is usually a > 10mb download and only includes data up to the most recently
         completed day.
 
-        :param str | int nft: Provide the numeric id or symbol of the NFT or token.
+        :param str or int nft: Provide the numeric id or symbol of the NFT or token.
         """
         return self._request(f'/nfts/{nft}/historical')
 
-    def get_nft_influencers(self, nft: str | int, interval: str = '1w', order: str = 'influential',
+    def get_nft_influencers(self, nft: str or int, interval: str = '1w', order: str = 'influential',
                             limit: int = 100, page: int = None) -> dict:
         """
         Get a list of crypto influencers for a specified nft collection. It is sorted on influencer_rank (influential)
@@ -437,7 +437,7 @@ class LunarCrushV3(LunarCrushABC):
         engagement, engagement rank, influencer rank, and weighted average rank. Also includes metadata like twitter
         handle, display name, profile and banner image.
 
-        :param str | int nft: Provide the numeric id or symbol of the NFT or token.
+        :param str or int nft: Provide the numeric id or symbol of the NFT or token.
         :param str interval: The time interval to use. Options: '1d', '1w', '1m', '3m', '6m', '1y', '2y', 'all'.
         :param str order: Order results. Options: 'influential', 'engagement', 'followers', 'volume'.
         :param int limit: Limit the number of results.
@@ -445,7 +445,7 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request(f'/nfts/{nft}/influencers', interval=interval, order=order, limit=limit, page=page)
 
-    def get_nft_insights(self, nft: str | int, metrics: str = None, limit: int = 10) -> dict:
+    def get_nft_insights(self, nft: str or int, metrics: str = None, limit: int = 10) -> dict:
         """
         Get a list of LunarCrush insights for a specific NFT collection. Insights are generated for any anomalies in the
         data or for any significant deviations from the moving average on a specific metric e.g. social contributors
@@ -454,14 +454,14 @@ class LunarCrushV3(LunarCrushABC):
         insights can also be filtered by specific metric  (social_volume, social_score, social_dominance,
         social_contributors, market_cap) by specifying in the "metrics" query parameter.
 
-        :param str | int nft: Provide the numeric id or symbol of the NFT or token.
+        :param str or int nft: Provide the numeric id or symbol of the NFT or token.
         :param str metrics: Filter insights to specific metrics. Options: 'social_volume', 'social_score',
                             'social_dominance', 'social_contributors', 'market_cap'.
         :param int limit: Limit the number of results.
         """
         return self._request(f'/nfts/{nft}/insights', metrics=metrics, limit=limit)
 
-    def get_nft_time_series(self, nft: str | int, interval: str = '1w', start: datetime.datetime = None,
+    def get_nft_time_series(self, nft: str or int, interval: str = '1w', start: datetime.datetime = None,
                             bucket: str = 'hour', data_points: int = None) -> dict:
         """
         Get the same metrics available on the /nfts/:nft endpoint in a series of discrete, memorialized time buckets
@@ -470,7 +470,7 @@ class LunarCrushV3(LunarCrushABC):
         pre-specified hourly or daily timestamps, capped at 1000 data points. This endpoint was designed to provide
         historical data for research or back-testing purposes.
 
-        :param str | int nft: Provide the numeric id or symbol of the NFT or token.
+        :param str or int nft: Provide the numeric id or symbol of the NFT or token.
         :param str interval: The time interval to use. Options: '1d', '1w', '1m', '3m', '6m', '1y', '2y', 'a'.
         :param datetime.datetime start: The start time (datetime.datetime) to go back to.
         :param str bucket: Use hour or day time buckets / aggregates. Options: 'hour', 'day'.
@@ -480,7 +480,7 @@ class LunarCrushV3(LunarCrushABC):
         return self._request(f'/nfts/{nft}/time-series',
                              interval=interval, start=start, bucket=bucket, data_points=data_points)
 
-    def get_nft_tokens(self, nft: str | int, sort: str = 'last_sold_amount',
+    def get_nft_tokens(self, nft: str or int, sort: str = 'last_sold_amount',
                        limit: int = 100, desc: bool = False) -> dict:
         """
         Get details on all tokens within an NFT collection. An NFT collection more than often consists of a few discrete
