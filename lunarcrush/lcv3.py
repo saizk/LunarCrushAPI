@@ -336,14 +336,15 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request(f'/influencers/{influencer}', fast=fast, interval=interval, sort=sort)
 
-    def get_insight(self, insight: str, type: str = 'coins') -> dict:
+    def get_insight(self, insight: str, type_: str = 'coins') -> dict:
         """
         Get details on a specific insight (specified by insight ID).
 
-        :param str type: The type of insight to fetch. Options: 'coins', 'nfts', 'global', 'nfts-global', 'influencers'.
+        :param str type_: The type of insight to fetch. Options: 'coins', 'nfts', 'global', 'nfts-global',
+                          'influencers'.
         :param str insight: The ID of the insight to fetch details for, i.e. 'D1l133'.
         """
-        return self._request(f'/insights/{insight}', type=type)
+        return self._request(f'/insights/{insight}', type=type_)
 
     def get_market_pairs(self, coin: str or int, limit: int = 100, page: int = 100, sort: str = None) -> dict:
         """
@@ -634,12 +635,19 @@ class LunarCrushV3(LunarCrushABC):
         """
         return self._request('/stats/lunrfi')
 
-    def get_top_mentions(self, interval: str = 'all', type: str = 'all', market: str = 'coins') -> dict:
+    def get_top_mentions(self, interval: str = 'all', type_: str = 'all', market: str = 'coins') -> dict:
         """
         Get the top word, emoji, or hashtag mentions from influential content.
 
         :param interval: The time interval to use. Options: '1d', '1w', '1m', '3m', '6m', '1y', '2y', 'all'.
-        :param type: The type of mentions to show. Options: 'all', 'word', 'emoji', 'hashtag'.
+        :param type_: The type of mentions to show. Options: 'all', 'word', 'emoji', 'hashtag'.
         :param market: Choose an asset market. One of coins, nfts. Options: 'coins', 'nfts'.
         """
-        return self._request('/top-mentions', interval=interval, type=type, market=market)
+        return self._request('/top-mentions', interval=interval, type=type_, market=market)
+
+    def get_whatsup(self):
+        """
+        WhatsUp powers the LunarCrush live dashboard. Includes the current list of top metrics for coins, nfts
+        and stocks. This endpoint is designed to be fetched as frequently as possible.
+        """
+        return self._request('/whatsup')
